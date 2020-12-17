@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[2]:
 
 
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 
-# In[2]:
+# In[3]:
 
 
 df = pd.read_excel(r'C:\Users\user\Downloads\aspiring_minds_employability_outcomes_2015.xlsx')
@@ -40,19 +41,22 @@ df.groupby('ComputerScience').mean()
 # 
 
 
+# # does collegegpa reflects salary
+
 # In[27]:
 
 
 per=df.groupby('collegeGPA').mean()["Salary"]
 
 
-# # collegegpa does not effect salary
-
 # In[28]:
 
 
 per.sort_values()
 
+
+# OBSERVATION: 
+#     fromabove it's clear that salary does not depends on collegegpa
 
 # In[33]:
 
@@ -64,12 +68,6 @@ df.collegeGPA.plot(kind = 'hist')
 
 
 df.groupby('collegeGPA').mean()['Salary'].plot()
-
-
-# In[ ]:
-
-
-
 
 
 # In[27]:
@@ -90,13 +88,7 @@ df[['12percentage','collegeGPA','Salary']].max()
 df[['12percentage','collegeGPA','Salary']].mean()
 
 
-# In[24]:
-
-
-df[['12percentage','collegeGPA','Salary']].median()
-
-
-# # most earning designation
+# # which is the designation getting highest paid
 
 # In[12]:
 
@@ -109,6 +101,8 @@ dr=df.groupby('Designation').median()['Salary']
 
 dr.sort_values()
 
+
+# OBSERVATION:from above it is evident that junior manager is the highest paid designation
 
 # In[9]:
 
@@ -126,14 +120,14 @@ plt.ylabel("Salary")
 plt.xlabel("Designation")
 
 
+# # according to city's which city provides highest package
+# 
+
 # In[14]:
 
 
 maxi = df.groupby("JobCity")['Salary'].mean()
 
-
-# # earning compared to cities
-# 
 
 # In[15]:
 
@@ -142,34 +136,14 @@ maxi.sort_values(inplace=True)
 maxi
 
 
-# In[ ]:
+# OBSERVATION:from above it is evident that student who got placed in kalmar,sweden is having highest package
+
+# # number of males recruited is more compared to females
+
+# In[6]:
 
 
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[16]:
-
-
-df.corr()
+df.Gender.value_counts()
 
 
 # # cs students introversion
@@ -187,18 +161,6 @@ plt.bar(df['extraversion'],df['ComputerScience'], color ='maroon',
 
 plt.bar(df['extraversion'],df['MechanicalEngg'], color ='Black',  
         width = 0.4)
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
 
 
 # In[22]:
@@ -228,7 +190,7 @@ plt.ylabel("quant")
 plt.title("comparision btw logical and quant")
 
 
-# # salary does not depend on logical ability
+# # does salary depends upon logical ability
 
 # In[27]:
 
@@ -237,11 +199,24 @@ df[['Logical','Salary']].sort_values(by=['Salary','Logical'])
 # salary does not depend on logical ability
 
 
-# In[ ]:
+# OBSERVATION:from above it is evident that logical ability scores does not reflect good salary
+
+# # among male& female software engineer from karnataka how are earning more 
+
+# In[5]:
 
 
+ar =df.loc[ (df.Designation == 'software engineer') & (df.CollegeState=='Karnataka')]
 
 
+# In[7]:
+
+
+sns.barplot(data =ar,y='Salary',x='Gender')
+
+
+# OBSERVATION:
+# the mean salary of male and female are nearly equal but the females have some amount of upper head
 
 # In[27]:
 
